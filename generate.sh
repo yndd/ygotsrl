@@ -1,8 +1,12 @@
 #!/bin/bash
+# usage: ./generator.sh v21.11.3
 
 go install github.com/openconfig/ygot/generator@v0.20.0
 git clone -b $1 --single-branch https://github.com/nokia/srlinux-yang-models.git nokia > /dev/null 2>&1
 rm -f nokia/srlinux-yang-models/srl_nokia/models/*/*tools*.yang
+
+#FILES=`find nokia/srlinux-yang-models/srl_nokia \( -iname "*.yang" ! -name "*radio*" \)`
+FILES=`find nokia/srlinux-yang-models/srl_nokia \( -iname "*.yang" \)`
 
 generator -output_file=ygotsrl.go \
     -logtostderr \
@@ -22,6 +26,6 @@ generator -output_file=ygotsrl.go \
     -yangpresence \
     -include_model_data \
     -generate_leaf_getters \
-    nokia/srlinux-yang-models/srl_nokia/models/*/*.yang
+    $FILES
 
 rm -rf nokia/
