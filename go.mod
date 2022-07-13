@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/openconfig/gnmi v0.0.0-20220503232738-6eb133c65a13
 	github.com/openconfig/goyang v1.0.0
-	github.com/openconfig/ygot v0.20.0
+	github.com/openconfig/ygot v0.23.1
 )
 
 require (
