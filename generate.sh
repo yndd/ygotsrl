@@ -35,6 +35,7 @@ checkLatestVersion() {
 # installDependencies installs ygot/generator version x.y.z
 installDependencies() {
     go install github.com/openconfig/ygot/generator@$YGOT_VERSION
+    go get github.com/openconfig/ygot@$YGOT_VERSION
 }
 
 # fetch the SRLinux YANG models for version x.y.z
@@ -44,6 +45,12 @@ fetchGitRepo() {
 
 cleanupGitRepo() {
     rm -f nokia/srlinux-yang-models/srl_nokia/models/*/*tools*.yang
+}
+
+# Fix Broken Yang1.1 statements
+fixYang11() {
+    sed -i 's/modifier \"invert-match\"/\/\/modifier \"invert-match\"/g' nokia/srlinux-yang-models/srl_nokia/models/common/srl_nokia-common.yang
+    cat nokia/srlinux-yang-models/srl_nokia/models/common/srl_nokia-common.yang | grep modifier
 }
 
 # generate the go structs using ygot/generator, exclude tools
@@ -124,5 +131,6 @@ set +u
 checkLatestVersion
 installDependencies
 fetchGitRepo
+fixYang11
 generate
 cleanup
